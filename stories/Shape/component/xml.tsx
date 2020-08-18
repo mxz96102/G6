@@ -3,7 +3,7 @@ import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
 const percentageBar = ({ width, used, height = 12 }) => `
-<rect style={{
+<rect style="{
   marginLeft: 10,
   marginTop: 3,
   width: ${width},
