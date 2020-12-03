@@ -323,7 +323,6 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
     y: 0,
     width: 0,
     height: 0,
-    ...lastOffset,
   };
 
   if (target.children?.length) {
@@ -335,15 +334,16 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
       offset.y += marginTop;
     }
 
-    for (let index = 0; index < target.children.length; index++) {
+    for (let index = 0; index < target.children.length; index += 1) {
       target.children[index].attrs.key = `${attrs.key || 'root'} -${index} `;
-      const node = generateTarget(target.children[index], offset);
+      const node = generateTarget(target.children[index], { ...offset });
       if (node.bbox) {
         const { bbox } = node;
         if (node.attrs.next === 'inline') {
-          offset.x += node.bbox.width;
+          offset.x += bbox.width;
         } else {
-          offset.y += node.bbox.height;
+          offset.x = lastOffset.x;
+          offset.y += bbox.height;
         }
         if (bbox.width + bbox.x > defaultBbox.width) {
           defaultBbox.width = bbox.width + bbox.x;

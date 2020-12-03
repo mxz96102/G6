@@ -47,6 +47,73 @@ const textXML = (cfg) => `
 `;
 
 G6.registerNode('test', textXML);
+function createText(data, left, top) {
+  return `<rect style={{ marginTop : 5, fill: #aaa, height: 20, width: 40 }}>
+    <text style={{
+      marginLeft: ${left},
+      marginTop:${top},
+      textAlign: 'center',
+      fontWeight: 'bold',
+      next:inline,
+      fontSize:${data.style.size},
+      fill: ${data.style.labelColor || data.style.color} }}>${data.label}</text>
+      <text style={{ 
+      textAlign: 'center',
+      marginLeft: ${(data.label.length + 1) * data.style.size},
+      marginTop:${top},
+      fontWeight: 'bold',
+      next:inline,
+      fontSize:${data.style.size},
+      fill: ${data.style.color} }}>${data.text}</text>
+      <text style={{
+      textAlign: 'center',
+      marginTop:${top},
+      marginLeft: ${(data.label.length + 1) * data.style.size},
+      fontWeight: 'bold',
+      fontSize:${data.style.size},
+      fill: ${data.style.unitColor || data.style.labelColor} }}>  ${data.unit}</text>
+  <rect>`;
+}
+
+G6.registerNode('test3', {
+  jsx(cfg) {
+    let t = createText(
+      {
+        text: 'top',
+        style: { size: 14, color: 'green', labelColor: 'white' },
+        label: 'P',
+        unit: 'MW',
+      },
+      5,
+      5,
+    );
+    let t2 = createText(
+      {
+        text: 'middle',
+        style: { size: 14, color: 'green', labelColor: 'white' },
+        label: 'P',
+        unit: 'MW',
+      },
+      5,
+      5,
+    );
+    let t3 = createText(
+      {
+        text: 'bottom',
+        style: { size: 14, color: 'green', labelColor: 'white' },
+        label: 'U',
+        unit: 'MW',
+      },
+      5,
+      5,
+    );
+    return `
+    <group style="{{}}" key="true">
+              ${t}${t2}${t3}
+    </group>
+`;
+  },
+});
 
 G6.registerNode(
   'rect-xml',
@@ -103,6 +170,12 @@ const data = {
       y: 150,
       cpuUsage: 30,
       type: 'rect-xml',
+    },
+    {
+      id: 'test3',
+      type: 'test3',
+      x: 400,
+      y: 450,
     },
   ],
   edges: [
